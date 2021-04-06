@@ -1,9 +1,7 @@
-# K-Means
-
+# Bioinformatics - MME
+ 
 Authors:
 * Joshua Martin
 * Federico Lionetti 
 
-The file called _cicio_ is our solution to **Assignment 03**. 
-
-
+Here you can find all the folders of the algorithms created by the authors 
