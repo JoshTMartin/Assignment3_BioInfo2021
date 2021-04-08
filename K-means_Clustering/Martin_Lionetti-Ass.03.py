@@ -24,4 +24,3 @@ print(coordinates)
 
 n_cluster = int(data[0][0])
 
-#pene
