@@ -5,9 +5,8 @@ import numpy as np
 import pandas as pd
 
 data = pd.read_csv("input.csv", delimiter=';', header=None)  # Importing the data from the CSV file and changing the
-# delimiter from "," to ";" in order to work them.
-# Also, we "deleted" the header in order to work with those
-# data as well.
+# delimiter from "," to ";" in order to work them. # Also, we "deleted" the header in order to work with those data
+# as well.
 
 print(data)
 
@@ -23,3 +22,4 @@ for xx in data[1][2::]:
 
 print(coordinates)
 
+n_cluster = int(data[0][0])
