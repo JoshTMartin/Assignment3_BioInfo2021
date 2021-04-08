@@ -23,12 +23,11 @@ print(coordinates)
 
 n_cluster = int(data[0][0])
 
-
-
-print("The max and the min of coordinate x are:", max(coordinates[i][0] for i in coordinates.keys()),",", min(coordinates[i][0] for i in coordinates.keys()))
-print("The max and the min of coordinate y are:", max(coordinates[i][1] for i in coordinates.keys()),",", min(coordinates[i][1] for i in coordinates.keys()))
-
-
+print("The max and the min of coordinate x are:", max(coordinates[i][0] for i in coordinates.keys()), ",",
+      min(coordinates[i][0] for i in coordinates.keys()))
+print("The max and the min of coordinate y are:", max(coordinates[i][1] for i in coordinates.keys()), ",",
+      min(coordinates[i][1] for i in coordinates.keys()))
+# RANDOM VALUE FOR THE FIRST POSITION OF THE FIRST CLUSTER-CENTER
 print(random.uniform(min(coordinates[i][0] for i in coordinates.keys()),
                      max(coordinates[i][0] for i in coordinates.keys())))
 print(random.uniform(min(coordinates[i][1] for i in coordinates.keys()),
