@@ -10,7 +10,14 @@ data = pd.read_csv("input.csv", delimiter=';', header=None)  # Importing the dat
 
 print(data)
 
-number = (data[0][2].replace(",", ".")) # Example on how to import  a single number for the position of the items
-                                        # in the clusters
+A_positions = []
+for ii in data[0][2::]:
+    A_positions.append(float(ii.replace(",",".")))
 
-print('\n', float(number))
+print(A_positions)
+
+B_position = []
+for oo in data[1][2::]:
+    B_position.append(float(oo.replace(",",".")))
+
+print(B_position)
