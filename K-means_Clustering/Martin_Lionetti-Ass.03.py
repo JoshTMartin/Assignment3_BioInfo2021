@@ -1,23 +1,25 @@
 # Ass. 03 Martin + Lionetti
+import random
 
 import numpy as np
 import pandas as pd
 
 data = pd.read_csv("input.csv", delimiter=';', header=None)  # Importing the data from the CSV file and changing the
-                                                             # delimiter from "," to ";" in order to work them.
-                                                             # Also, we "deleted" the header in order to work with those
-                                                             # data as well.
+# delimiter from "," to ";" in order to work them.
+# Also, we "deleted" the header in order to work with those
+# data as well.
 
 print(data)
 
-A_positions = []
+coordinates = {}
+name = 0
 for ii in data[0][2::]:
-    A_positions.append(float(ii.replace(",",".")))
+    coordinates["item" + str(name)] = [ii]
+    name += 1
+name = 0
+for xx in data[1][2::]:
+    coordinates["item" + str(name)].append(xx)
+    name += 1
 
-print(A_positions)
+print(coordinates)
 
-B_position = []
-for oo in data[1][2::]:
-    B_position.append(float(oo.replace(",",".")))
-
-print(B_position)
