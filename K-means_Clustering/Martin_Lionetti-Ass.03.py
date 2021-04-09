@@ -21,7 +21,7 @@ for xx in data[1][2::]:
 
 print(coordinates)
 
-n_cluster = int(data[0][0])
+centers = int(data[0][0])
 
 print("The max and the min of coordinate x are:", max(coordinates[i][0] for i in coordinates.keys()), ",",
       min(coordinates[i][0] for i in coordinates.keys()))
