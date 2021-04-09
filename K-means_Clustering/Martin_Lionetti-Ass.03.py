@@ -1,6 +1,5 @@
 # Ass. 03 Martin + Lionetti
 import random
-
 import numpy as np
 import pandas as pd
 
@@ -32,3 +31,4 @@ print(random.uniform(min(coordinates[i][0] for i in coordinates.keys()),
                      max(coordinates[i][0] for i in coordinates.keys())))
 print(random.uniform(min(coordinates[i][1] for i in coordinates.keys()),
                      max(coordinates[i][1] for i in coordinates.keys())))
+
