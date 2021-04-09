@@ -7,28 +7,28 @@ data = pd.read_csv("input.csv", delimiter=';', header=None)  # Importing the dat
 # delimiter from "," to ";" in order to work them. # Also, we "deleted" the header in order to work with those data
 # as well.
 
-coordinates = {}
+go_topless_please = {}
 name = 0
 for ii in data[0][2::]:
-    coordinates["item" + str(name)] = [float(ii.replace(",", "."))]
+    go_topless_please["item" + str(name)] = [float(ii.replace(",", "."))]
     name += 1
 
 name = 0
 for xx in data[1][2::]:
-    coordinates["item" + str(name)].append(float(xx.replace(",", ".")))
+    go_topless_please["item" + str(name)].append(float(xx.replace(",", ".")))
     name += 1
 
-print(coordinates)
+print(go_topless_please)
 
 centers = int(data[0][0])
 
-print("The max and the min of coordinate x are:", max(coordinates[i][0] for i in coordinates.keys()), ",",
-      min(coordinates[i][0] for i in coordinates.keys()))
-print("The max and the min of coordinate y are:", max(coordinates[i][1] for i in coordinates.keys()), ",",
-      min(coordinates[i][1] for i in coordinates.keys()))
+print("The max and the min of coordinate x are:", max(go_topless_please[i][0] for i in go_topless_please.keys()), ",",
+      min(go_topless_please[i][0] for i in go_topless_please.keys()))
+print("The max and the min of coordinate y are:", max(go_topless_please[i][1] for i in go_topless_please.keys()), ",",
+      min(go_topless_please[i][1] for i in go_topless_please.keys()))
 # RANDOM VALUE FOR THE FIRST POSITION OF THE FIRST CLUSTER-CENTER
-print(random.uniform(min(coordinates[i][0] for i in coordinates.keys()),
-                     max(coordinates[i][0] for i in coordinates.keys())))
-print(random.uniform(min(coordinates[i][1] for i in coordinates.keys()),
-                     max(coordinates[i][1] for i in coordinates.keys())))
+print("Random x coordinate (1st center)", (random.uniform(min(go_topless_please[i][0] for i in go_topless_please.keys()),
+                                                          max(go_topless_please[i][0] for i in go_topless_please.keys()))))
+print("Random y coordinate (1st center)", (random.uniform(min(go_topless_please[i][1] for i in go_topless_please.keys()),
+                                                          max(go_topless_please[i][1] for i in go_topless_please.keys()))))
 
