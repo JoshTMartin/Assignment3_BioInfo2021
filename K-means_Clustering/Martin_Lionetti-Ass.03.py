@@ -36,5 +36,4 @@ print("Random y coordinate (1st center)",
 
 cities = pd.DataFrame([['Sacramento', 'California'], ['Miami', 'Florida']], columns=['Cities', 'Country'])
 
-cities.to_csv("test.csv")
 
