@@ -32,3 +32,6 @@ print("Random x coordinate (1st center)", (random.uniform(min(go_topless_please[
 print("Random y coordinate (1st center)", (random.uniform(min(go_topless_please[i][1] for i in go_topless_please.keys()),
                                                           max(go_topless_please[i][1] for i in go_topless_please.keys()))))
 
+cities = pd.DataFrame([['Sacramento','California'],['Miami' ,'Florida']], columns=['Cities','Country'])
+
+cities.to_csv('cities.csv')
