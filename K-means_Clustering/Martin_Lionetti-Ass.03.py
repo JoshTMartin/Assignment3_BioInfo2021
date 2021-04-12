@@ -46,7 +46,7 @@ def new_centroids(color):
     value = 0
     value2 = 0
     if len(color) == 0:
-        exit()
+        return [0, 0]
     for mom in color:
         value += mom[0]
         value2 += mom[1]
@@ -174,7 +174,6 @@ if (centroid, centroid2, centroid3) == (aa, bb, ccs):
     plt.show()
     exit()
 
-
 # Fifth PLOT - THIRD Run of moving the centroids
 plt.subplot(2, 3, 5)
 plt.title("Third Run")
@@ -199,7 +198,6 @@ if (aa, bb, ccs) == (centroid, centroid2, centroid3):
     print("Test ended Third Run")
     plt.show()
     exit()
-
 
 # Sixth PLOT - FOURTH Run of moving the centroids
 plt.subplot(2, 3, 6)
@@ -228,4 +226,3 @@ if (centroid, centroid2, centroid3) == (aa, bb, ccs):
 else:
     print("Test failed")
     exit()
-
