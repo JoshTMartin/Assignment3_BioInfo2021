@@ -167,6 +167,11 @@ if (aa, bb, ccs) == (centroid, centroid2, centroid3):
     print("Test ended First Run")
     plt.show()
     exit()
+else:
+    plt.arrow(centroid[0], centroid[1], (aa[0] - centroid[0]), (aa[1] - centroid[1]), width=0.005)
+    plt.arrow(centroid2[0], centroid2[1], (bb[0] - centroid2[0]), (bb[1] - centroid2[1]), width=0.005)
+    plt.arrow(centroid3[0], centroid3[1], (ccs[0] - centroid3[0]), (ccs[1] - centroid3[1]), width=0.005)
+
 
 # Fourth PLOT - SECOND Run of moving the centroids
 plt.subplot(2, 3, 4)
@@ -192,6 +197,10 @@ if (centroid, centroid2, centroid3) == (aa, bb, ccs):
     print("Test ended Second Run")
     plt.show()
     exit()
+else:
+    plt.arrow(aa[0], aa[1], (centroid[0] - aa[0]), (centroid[1] - aa[1]), width=0.005)
+    plt.arrow(bb[0], bb[1], (centroid2[0] - bb[0]), (centroid2[1] - bb[1]), width=0.005)
+    plt.arrow(ccs[0], ccs[1], (centroid3[0] - ccs[0]), (centroid3[1] - ccs[1]), width=0.005)
 
 # Fifth PLOT - THIRD Run of moving the centroids
 plt.subplot(2, 3, 5)
@@ -217,6 +226,11 @@ if (aa, bb, ccs) == (centroid, centroid2, centroid3):
     print("Test ended Third Run")
     plt.show()
     exit()
+else:
+    plt.arrow(centroid[0], centroid[1], (aa[0] - centroid[0]), (aa[1] - centroid[1]), width=0.005)
+    plt.arrow(centroid2[0], centroid2[1], (bb[0] - centroid2[0]), (bb[1] - centroid2[1]), width=0.005)
+    plt.arrow(centroid3[0], centroid3[1], (ccs[0] - centroid3[0]), (ccs[1] - centroid3[1]), width=0.005)
+
 
 # Sixth PLOT - FOURTH Run of moving the centroids
 plt.subplot(2, 3, 6)
