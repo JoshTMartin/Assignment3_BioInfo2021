@@ -124,6 +124,25 @@ plt.scatter(centroid3[0], centroid3[1], c=k3, marker='*', s=15 * 15)
 
 assign(centroid, centroid2, centroid3)
 
+
+
+########################################################################################################################
+# nn_centers = []
+#
+#
+# def creating_clusters(puppa):
+#     for xx in range(int(puppa)):
+#         nn_centers.append([random.uniform(min(coordinates[i][0] for i in coordinates.keys()),
+#                                           max(coordinates[i][0] for i in coordinates.keys())),
+#                            random.uniform(min(coordinates[i][1] for i in coordinates.keys()),
+#                                           max(coordinates[i][1] for i in coordinates.keys()))])
+#
+#
+# # creating_clusters(data[0][0])
+# # for cacca in nn_centers:
+# #     plt.scatter(cacca[0], cacca[1], c="grey", marker='o', s=15 * 15)
+
+########################################################################################################################
 # THIRD PLOT - First Run of moving the centroids
 plt.subplot(2, 3, 3)
 plt.title("First Run")
