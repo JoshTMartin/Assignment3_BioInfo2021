@@ -102,7 +102,6 @@ def automatica():
     global centroid1, centroid2, centroid3
     global new1, new2, new3
     global counter
-    print("\n")
     if counter == 0:
         centroid1 = [random.uniform(min(coordinates[i][0] for i in coordinates.keys()),
                                     max(coordinates[i][0] for i in coordinates.keys())),
@@ -117,9 +116,6 @@ def automatica():
                      random.uniform(min(coordinates[i][1] for i in coordinates.keys()),
                                     max(coordinates[i][1] for i in coordinates.keys()))]
         assign(centroid1, centroid2, centroid3)
-        for xx in coordinates.items():
-            print(xx[1][2], end=", ")
-        print("\nStart ", centroid1, centroid2, centroid3)
         counter += 1
 
     elif (counter % 2) != 0:
@@ -127,30 +123,48 @@ def automatica():
         new2 = new_centroids(second_color)
         new3 = new_centroids(third_color)
         assign(new1, new2, new3)
-        for xx in coordinates.items():
-            print(xx[1][2], end=", ")
-        print("\nRun" + str(counter), new1, new2, new3)
         counter += 1
     else:
         centroid1 = new_centroids(first_color)
         centroid2 = new_centroids(second_color)
         centroid3 = new_centroids(third_color)
         assign(centroid1, centroid2, centroid3)
-        for xx in coordinates.items():
-            print(xx[1][2], end=", ")
-        print("\nRun" + str(counter), centroid1, centroid2, centroid3)
         counter += 1
 
 
-##################################
+# Function for assigning number groups while writing the csv
+def cluster_csv(suca):
+    if suca == 'blue':
+        return "1"
+    elif suca == 'green':
+        return "2"
+    elif suca == 'red':
+        return "3"
 
+
+##################################
+# *** MAIN PROCESS ***
 # Variable for counting the iterations of the process
 iteration = 0
 automatica()
 while True:
     if (centroid1, centroid2, centroid3) == (new1, new2, new3):
-        print("\nSince iteration", iteration, "is equal to iteration", iteration - 1,"the program ended in",
+        print("Since iteration", iteration, "is equal to iteration", iteration - 1, "the program ended in",
               iteration - 1, "iterations")
         break
     automatica()
     iteration += 1
+
+# *** WRITING CSV ***
+# Creating DataFrame with all the needed information
+output = pd.DataFrame(columns=['Group', 'X', 'Y'])
+output.loc["cluster"] = [data[0][0], "", ""]
+for babe in (new1, new2, new3):
+    output.loc[str(babe)] = [format(babe[0], ".10f"), format(babe[1], ".10f"), ""]
+output.loc["iterations"] = [iteration-1, "", ""]
+output.loc["n_items+dimensions"] = [len(coordinates), 2, ""]
+for ii in coordinates.keys():
+    coordinates[ii][2] = cluster_csv(coordinates[ii][2])
+    output.loc[ii] = [coordinates[ii][2], coordinates[ii][0], coordinates[ii][1]]
+
+output.to_csv("output.csv", sep=";", index=False, header=False)
