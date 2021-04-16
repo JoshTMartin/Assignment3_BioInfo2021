@@ -3,10 +3,19 @@ import random
 from matplotlib import pyplot as plt
 
 
-# Function for "Manhattan distancing"
+# Function for "Manhattan distancing" between an item and a center of a cluster
 def manhattan(x, kol):
     distance = abs(coordinates['item' + str(kol)][0] - x[0]) + abs(coordinates['item' + str(kol)][1] - x[1])
     return distance
+
+
+# Defining 3 different colors for each cluster and 3 different lists where to store the items of each cluster
+k1 = 'red'
+first_color = []
+k2 = 'green'
+second_color = []
+k3 = 'blue'
+third_color = []
 
 
 # Function for assigning each item to a specific centroid (giving them also a color and adding them to the specific
@@ -40,7 +49,9 @@ def assign(x, y, z):
                 third_color.append(sss[1])
 
 
-# Function for finding and assigning the new position to the centroids
+# Function for finding and assigning the new position to the centroids.
+# Basically it takes as argument a color-list (i.e. "first_color", "second_color", "third_color")
+# and return an average of the values of x of each item in that list. The same concept goes for y.
 def new_centroids(color):
     value = 0
     value2 = 0
@@ -69,15 +80,7 @@ for xxs in data[1][2::]:
 for qwe in range(len(coordinates)):
     coordinates['item' + str(qwe)].append("black")
 
-# Defining 3 different colors for each cluster and 3 different lists where to store the items of each cluster
-k1 = 'red'
-first_color = []
-k2 = 'green'
-second_color = []
-k3 = 'blue'
-third_color = []
-
-# Defining 6 centers: these will be the ones that we will move and use for assign the items
+# Defining 6 centers: these will be the ones that we will move and use for assigning the items
 centroid1 = []
 centroid2 = []
 centroid3 = []
@@ -86,22 +89,23 @@ new1 = []
 new2 = []
 new3 = []
 
-# Function for making the whole process automatic Variable needed to choose which center variable has to be used.
+# Variable needed to choose which center variable has to be used.
 counter = 0
 
 
 # Basically: at the beginning this variable is obviously is zero, so the initial centers (centroid1, centroid2,
-# centroid3) are being positioned randomly and the items are assigned. After each run, the counter goes up by one,
-# by simply detecting if the variable counter is even/odd, "automatica()" use alternatively the second set of centers
+# centroid3) are being positioned randomly and the items are assigned. After each run, the counter goes up by one. By
+# simply detecting if the variable "counter" is even/odd, "automatica()" uses alternatively the second set of centers
 # or the first one.
-# So, in short: counter=0 automatica() fills up the variables centroid1,..,centroid3; counter=1 automatica() fills
-# up the variable new1,...,new3; counter=2 automatica() fills up the variables centroid1,..,centroid3 (again); and so on
+# So, in short: counter=0 automatica() fills up the variables centroid1,..,centroid3; counter=1 automatica() fills up
+# the variable new1,...,new3; counter=2 automatica() fills up the variables centroid1,.., centroid3 (again); and so on.
 
-
+# Function for making the whole process automatic
 def automatica():
     global centroid1, centroid2, centroid3
     global new1, new2, new3
     global counter
+    # Starting Position
     if counter == 0:
         centroid1 = [random.uniform(min(coordinates[i][0] for i in coordinates.keys()),
                                     max(coordinates[i][0] for i in coordinates.keys())),
@@ -117,13 +121,14 @@ def automatica():
                                     max(coordinates[i][1] for i in coordinates.keys()))]
         assign(centroid1, centroid2, centroid3)
         counter += 1
-
+    # If the variable "counter" is an ODD number, automatica() uses/reuses these variables
     elif (counter % 2) != 0:
         new1 = new_centroids(first_color)
         new2 = new_centroids(second_color)
         new3 = new_centroids(third_color)
         assign(new1, new2, new3)
         counter += 1
+    # If the variable "counter" is an EVEN number, automatica() uses/reuses these variables
     else:
         centroid1 = new_centroids(first_color)
         centroid2 = new_centroids(second_color)
@@ -132,7 +137,7 @@ def automatica():
         counter += 1
 
 
-# Function for assigning number groups while writing the csv
+# Function to assign a number to each cluster while writing the csv
 def cluster_csv(suca):
     if suca == 'blue':
         return "1"
@@ -149,8 +154,8 @@ iteration = 0
 automatica()
 while True:
     if (centroid1, centroid2, centroid3) == (new1, new2, new3):
-        print("Since iteration", iteration, "is equal to iteration", iteration - 1, "the program ended in",
-              iteration - 1, "iterations")
+        print("Since iteration", iteration, "is equal to iteration", str(iteration - 1)+",", "the program ended in",
+              iteration - 1, "iterations.")
         break
     automatica()
     iteration += 1
@@ -161,10 +166,11 @@ output = pd.DataFrame(columns=['Group', 'X', 'Y'])
 output.loc["cluster"] = [data[0][0], "", ""]
 for babe in (new1, new2, new3):
     output.loc[str(babe)] = [format(babe[0], ".10f"), format(babe[1], ".10f"), ""]
-output.loc["iterations"] = [iteration-1, "", ""]
+output.loc["iterations"] = [iteration - 1, "", ""]
 output.loc["n_items+dimensions"] = [len(coordinates), 2, ""]
 for ii in coordinates.keys():
     coordinates[ii][2] = cluster_csv(coordinates[ii][2])
     output.loc[ii] = [coordinates[ii][2], coordinates[ii][0], coordinates[ii][1]]
 
+# Writing the CSV using the just made DataFrame
 output.to_csv("output.csv", sep=";", index=False, header=False)
