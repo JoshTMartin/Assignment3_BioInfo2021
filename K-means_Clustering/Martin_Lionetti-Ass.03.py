@@ -1,5 +1,4 @@
 import pandas as pd
-import numpy as np
 import random
 from matplotlib import pyplot as plt
 
@@ -63,37 +62,12 @@ for ii in data[0][2::]:
     coordinates["item" + str(name)] = [float(ii.replace(",", "."))]
     name += 1
 name = 0
-for xx in data[1][2::]:
-    coordinates["item" + str(name)].append(float(xx.replace(",", ".")))
+for xxs in data[1][2::]:
+    coordinates["item" + str(name)].append(float(xxs.replace(",", ".")))
     name += 1
 # Assigning to each item a default color
 for qwe in range(len(coordinates)):
     coordinates['item' + str(qwe)].append("black")
-
-# Creating the different plots
-# FIRST PLOT IS JUST THE RAW DATA
-
-plt.subplot(2, 3, 1)
-
-for cc in range(len(coordinates)):
-    plt.scatter(coordinates['item' + str(cc)][0], coordinates['item' + str(cc)][1], c='black')
-plt.title("Raw Data")
-plt.xlim(0, max(coordinates[i][0] for i in coordinates.keys()) + 0.10)
-plt.xticks(np.arange(0, max(coordinates[i][0] for i in coordinates.keys()) + 0.10, 0.10))
-plt.ylim(0, max(coordinates[i][0] for i in coordinates.keys()) + 0.10)
-plt.yticks(np.arange(0, max(coordinates[i][0] for i in coordinates.keys()) + 0.10, 0.10))
-plt.grid()
-
-# SECOND PLOT IS THE INITIAL STEP
-plt.subplot(2, 3, 2)
-for cc in range(len(coordinates)):
-    plt.scatter(coordinates['item' + str(cc)][0], coordinates['item' + str(cc)][1], c='black')
-plt.title("Start")
-plt.xlim(0, max(coordinates[i][0] for i in coordinates.keys()) + 0.10)
-plt.xticks(np.arange(0, max(coordinates[i][0] for i in coordinates.keys()) + 0.10, 0.10))
-plt.ylim(0, max(coordinates[i][0] for i in coordinates.keys()) + 0.10)
-plt.yticks(np.arange(0, max(coordinates[i][0] for i in coordinates.keys()) + 0.10, 0.10))
-plt.grid()
 
 # Defining 3 different colors for each cluster and 3 different lists where to store the items of each cluster
 k1 = 'red'
@@ -103,159 +77,80 @@ second_color = []
 k3 = 'blue'
 third_color = []
 
-# Creating 3 different random centroids using the min/max of the data
-centroid = [random.uniform(min(coordinates[i][0] for i in coordinates.keys()),
-                           max(coordinates[i][0] for i in coordinates.keys())),
-            random.uniform(min(coordinates[i][1] for i in coordinates.keys()),
-                           max(coordinates[i][1] for i in coordinates.keys()))]
-centroid2 = [random.uniform(min(coordinates[i][0] for i in coordinates.keys()),
-                            max(coordinates[i][0] for i in coordinates.keys())),
-             random.uniform(min(coordinates[i][1] for i in coordinates.keys()),
-                            max(coordinates[i][1] for i in coordinates.keys()))]
-centroid3 = [random.uniform(min(coordinates[i][0] for i in coordinates.keys()),
-                            max(coordinates[i][0] for i in coordinates.keys())),
-             random.uniform(min(coordinates[i][1] for i in coordinates.keys()),
-                            max(coordinates[i][1] for i in coordinates.keys()))]
+# Defining 6 centers: these will be the ones that we will move and use for assign the items
+centroid1 = []
+centroid2 = []
+centroid3 = []
 
-# Adding the centroids to the plot
-plt.scatter(centroid[0], centroid[1], c=k1, marker='*', s=15 * 15)
-plt.scatter(centroid2[0], centroid2[1], c=k2, marker='*', s=15 * 15)
-plt.scatter(centroid3[0], centroid3[1], c=k3, marker='*', s=15 * 15)
+new1 = []
+new2 = []
+new3 = []
 
-assign(centroid, centroid2, centroid3)
+# Function for making the whole process automatic Variable needed to choose which center variable has to be used.
+counter = 0
 
 
-
-########################################################################################################################
-# nn_centers = []
-#
-#
-# def creating_clusters(puppa):
-#     for xx in range(int(puppa)):
-#         nn_centers.append([random.uniform(min(coordinates[i][0] for i in coordinates.keys()),
-#                                           max(coordinates[i][0] for i in coordinates.keys())),
-#                            random.uniform(min(coordinates[i][1] for i in coordinates.keys()),
-#                                           max(coordinates[i][1] for i in coordinates.keys()))])
-#
-#
-# # creating_clusters(data[0][0])
-# # for cacca in nn_centers:
-# #     plt.scatter(cacca[0], cacca[1], c="grey", marker='o', s=15 * 15)
-
-########################################################################################################################
-# THIRD PLOT - First Run of moving the centroids
-plt.subplot(2, 3, 3)
-plt.title("First Run")
-plt.xlim(0, max(coordinates[i][0] for i in coordinates.keys()) + 0.10)
-plt.xticks(np.arange(0, max(coordinates[i][0] for i in coordinates.keys()) + 0.10, 0.10))
-plt.ylim(0, max(coordinates[i][0] for i in coordinates.keys()) + 0.10)
-plt.yticks(np.arange(0, max(coordinates[i][0] for i in coordinates.keys()) + 0.10, 0.10))
-plt.grid()
-for cc in range(len(coordinates)):
-    plt.scatter(coordinates['item' + str(cc)][0], coordinates['item' + str(cc)][1], c=coordinates['item' + str(cc)][2])
-
-aa = new_centroids(first_color)
-bb = new_centroids(second_color)
-ccs = new_centroids(third_color)
-
-plt.scatter(aa[0], aa[1], c=k1, marker='*', s=15 * 15)
-plt.scatter(bb[0], bb[1], c=k2, marker='*', s=15 * 15)
-plt.scatter(ccs[0], ccs[1], c=k3, marker='*', s=15 * 15)
-
-assign(aa, bb, ccs)
-if (aa, bb, ccs) == (centroid, centroid2, centroid3):
-    print("Test ended First Run")
-    plt.show()
-    exit()
-else:
-    plt.arrow(centroid[0], centroid[1], (aa[0] - centroid[0]), (aa[1] - centroid[1]), width=0.005)
-    plt.arrow(centroid2[0], centroid2[1], (bb[0] - centroid2[0]), (bb[1] - centroid2[1]), width=0.005)
-    plt.arrow(centroid3[0], centroid3[1], (ccs[0] - centroid3[0]), (ccs[1] - centroid3[1]), width=0.005)
+# Basically: at the beginning this variable is obviously is zero, so the initial centers (centroid1, centroid2,
+# centroid3) are being positioned randomly and the items are assigned. After each run, the counter goes up by one,
+# by simply detecting if the variable counter is even/odd, "automatica()" use alternatively the second set of centers
+# or the first one.
+# So, in short: counter=0 automatica() fills up the variables centroid1,..,centroid3; counter=1 automatica() fills
+# up the variable new1,...,new3; counter=2 automatica() fills up the variables centroid1,..,centroid3 (again); and so on
 
 
-# Fourth PLOT - SECOND Run of moving the centroids
-plt.subplot(2, 3, 4)
-plt.title("Second Run")
-plt.xlim(0, max(coordinates[i][0] for i in coordinates.keys()) + 0.10)
-plt.xticks(np.arange(0, max(coordinates[i][0] for i in coordinates.keys()) + 0.10, 0.10))
-plt.ylim(0, max(coordinates[i][0] for i in coordinates.keys()) + 0.10)
-plt.yticks(np.arange(0, max(coordinates[i][0] for i in coordinates.keys()) + 0.10, 0.10))
-plt.grid()
-for cc in range(len(coordinates)):
-    plt.scatter(coordinates['item' + str(cc)][0], coordinates['item' + str(cc)][1], c=coordinates['item' + str(cc)][2])
+def automatica():
+    global centroid1, centroid2, centroid3
+    global new1, new2, new3
+    global counter
+    print("\n")
+    if counter == 0:
+        centroid1 = [random.uniform(min(coordinates[i][0] for i in coordinates.keys()),
+                                    max(coordinates[i][0] for i in coordinates.keys())),
+                     random.uniform(min(coordinates[i][1] for i in coordinates.keys()),
+                                    max(coordinates[i][1] for i in coordinates.keys()))]
+        centroid2 = [random.uniform(min(coordinates[i][0] for i in coordinates.keys()),
+                                    max(coordinates[i][0] for i in coordinates.keys())),
+                     random.uniform(min(coordinates[i][1] for i in coordinates.keys()),
+                                    max(coordinates[i][1] for i in coordinates.keys()))]
+        centroid3 = [random.uniform(min(coordinates[i][0] for i in coordinates.keys()),
+                                    max(coordinates[i][0] for i in coordinates.keys())),
+                     random.uniform(min(coordinates[i][1] for i in coordinates.keys()),
+                                    max(coordinates[i][1] for i in coordinates.keys()))]
+        assign(centroid1, centroid2, centroid3)
+        for xx in coordinates.items():
+            print(xx[1][2], end=", ")
+        print("\nStart ", centroid1, centroid2, centroid3)
+        counter += 1
 
-centroid = new_centroids(first_color)
-centroid2 = new_centroids(second_color)
-centroid3 = new_centroids(third_color)
-
-plt.scatter(centroid[0], centroid[1], c=k1, marker='*', s=15 * 15)
-plt.scatter(centroid2[0], centroid2[1], c=k2, marker='*', s=15 * 15)
-plt.scatter(centroid3[0], centroid3[1], c=k3, marker='*', s=15 * 15)
-
-assign(centroid, centroid2, centroid3)
-if (centroid, centroid2, centroid3) == (aa, bb, ccs):
-    print("Test ended Second Run")
-    plt.show()
-    exit()
-else:
-    plt.arrow(aa[0], aa[1], (centroid[0] - aa[0]), (centroid[1] - aa[1]), width=0.005)
-    plt.arrow(bb[0], bb[1], (centroid2[0] - bb[0]), (centroid2[1] - bb[1]), width=0.005)
-    plt.arrow(ccs[0], ccs[1], (centroid3[0] - ccs[0]), (centroid3[1] - ccs[1]), width=0.005)
-
-# Fifth PLOT - THIRD Run of moving the centroids
-plt.subplot(2, 3, 5)
-plt.title("Third Run")
-plt.xlim(0, max(coordinates[i][0] for i in coordinates.keys()) + 0.10)
-plt.xticks(np.arange(0, max(coordinates[i][0] for i in coordinates.keys()) + 0.10, 0.10))
-plt.ylim(0, max(coordinates[i][0] for i in coordinates.keys()) + 0.10)
-plt.yticks(np.arange(0, max(coordinates[i][0] for i in coordinates.keys()) + 0.10, 0.10))
-plt.grid()
-for cc in range(len(coordinates)):
-    plt.scatter(coordinates['item' + str(cc)][0], coordinates['item' + str(cc)][1], c=coordinates['item' + str(cc)][2])
-
-aa = new_centroids(first_color)
-bb = new_centroids(second_color)
-ccs = new_centroids(third_color)
-
-plt.scatter(aa[0], aa[1], c=k1, marker='*', s=15 * 15)
-plt.scatter(bb[0], bb[1], c=k2, marker='*', s=15 * 15)
-plt.scatter(ccs[0], ccs[1], c=k3, marker='*', s=15 * 15)
-
-assign(aa, bb, ccs)
-if (aa, bb, ccs) == (centroid, centroid2, centroid3):
-    print("Test ended Third Run")
-    plt.show()
-    exit()
-else:
-    plt.arrow(centroid[0], centroid[1], (aa[0] - centroid[0]), (aa[1] - centroid[1]), width=0.005)
-    plt.arrow(centroid2[0], centroid2[1], (bb[0] - centroid2[0]), (bb[1] - centroid2[1]), width=0.005)
-    plt.arrow(centroid3[0], centroid3[1], (ccs[0] - centroid3[0]), (ccs[1] - centroid3[1]), width=0.005)
+    elif (counter % 2) != 0:
+        new1 = new_centroids(first_color)
+        new2 = new_centroids(second_color)
+        new3 = new_centroids(third_color)
+        assign(new1, new2, new3)
+        for xx in coordinates.items():
+            print(xx[1][2], end=", ")
+        print("\nRun" + str(counter), new1, new2, new3)
+        counter += 1
+    else:
+        centroid1 = new_centroids(first_color)
+        centroid2 = new_centroids(second_color)
+        centroid3 = new_centroids(third_color)
+        assign(centroid1, centroid2, centroid3)
+        for xx in coordinates.items():
+            print(xx[1][2], end=", ")
+        print("\nRun" + str(counter), centroid1, centroid2, centroid3)
+        counter += 1
 
 
-# Sixth PLOT - FOURTH Run of moving the centroids
-plt.subplot(2, 3, 6)
-plt.title("Fourth Run")
-plt.xlim(0, max(coordinates[i][0] for i in coordinates.keys()) + 0.10)
-plt.xticks(np.arange(0, max(coordinates[i][0] for i in coordinates.keys()) + 0.10, 0.10))
-plt.ylim(0, max(coordinates[i][0] for i in coordinates.keys()) + 0.10)
-plt.yticks(np.arange(0, max(coordinates[i][0] for i in coordinates.keys()) + 0.10, 0.10))
-plt.grid()
-for cc in range(len(coordinates)):
-    plt.scatter(coordinates['item' + str(cc)][0], coordinates['item' + str(cc)][1], c=coordinates['item' + str(cc)][2])
+##################################
 
-centroid = new_centroids(first_color)
-centroid2 = new_centroids(second_color)
-centroid3 = new_centroids(third_color)
-
-plt.scatter(centroid[0], centroid[1], c=k1, marker='*', s=15 * 15)
-plt.scatter(centroid2[0], centroid2[1], c=k2, marker='*', s=15 * 15)
-plt.scatter(centroid3[0], centroid3[1], c=k3, marker='*', s=15 * 15)
-
-assign(centroid, centroid2, centroid3)
-if (centroid, centroid2, centroid3) == (aa, bb, ccs):
-    print("Test ended Fourth Run")
-    plt.show()
-    exit()
-else:
-    print("Test failed")
-    exit()
+# Variable for counting the iterations of the process
+iteration = 0
+automatica()
+while True:
+    if (centroid1, centroid2, centroid3) == (new1, new2, new3):
+        print("\nSince iteration", iteration, "is equal to iteration", iteration - 1,"the program ended in",
+              iteration - 1, "iterations")
+        break
+    automatica()
+    iteration += 1
