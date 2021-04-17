@@ -1,6 +1,5 @@
 import pandas as pd
 import random
-from matplotlib import pyplot as plt
 
 
 # Function for "Manhattan distancing" between an item and a center of a cluster
@@ -28,7 +27,6 @@ def assign(x, y, z):
         close = min(i1_center, i2_center, i3_center)
         for zzz in (i1_center, i2_center, i3_center):
             if close == zzz:
-                plt.scatter(coordinates['item' + str(dd)][0], coordinates['item' + str(dd)][1], c=zzz[1])
                 coordinates['item' + str(dd)][2] = zzz[1]
 
     for sss in coordinates.items():
