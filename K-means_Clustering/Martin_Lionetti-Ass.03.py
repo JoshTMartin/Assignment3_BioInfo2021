@@ -1,5 +1,9 @@
+# Josh Martin & Federico Lionetti - Bioinformatics - Assignment03 (K-mean Clustering)
+
 import pandas as pd
 import random
+from matplotlib import pyplot as plt
+import numpy as np
 
 
 # Function for "Manhattan distancing" between an item and a center of a cluster
@@ -55,9 +59,9 @@ def new_centroids(color):
     value2 = 0
     if len(color) == 0:
         return [0, 0]
-    for mom in color:
-        value += mom[0]
-        value2 += mom[1]
+    for meann in color:
+        value += meann[0]
+        value2 += meann[1]
     return [float(value / len(color)), float(value2 / len(color))]
 
 
@@ -118,20 +122,46 @@ def automatica():
                      random.uniform(min(coordinates[i][1] for i in coordinates.keys()),
                                     max(coordinates[i][1] for i in coordinates.keys()))]
         assign(centroid1, centroid2, centroid3)
+        plt.subplot(3, 3, counter + 2)
+        plt.title("Starting Position")
+        plot()
+        plot_centers(centroid1, centroid2, centroid3)
         counter += 1
+
     # If the variable "counter" is an ODD number, automatica() uses/reuses these variables
     elif (counter % 2) != 0:
         new1 = new_centroids(first_color)
         new2 = new_centroids(second_color)
         new3 = new_centroids(third_color)
         assign(new1, new2, new3)
+        plt.subplot(3, 3, counter + 2)
+        plt.title("Run " + str(counter))
+        plot()
+        plot_centers(new1, new2, new3)
+        if centroid1 != new1:
+            plot_arrows(centroid1, new1)
+        if centroid2 != new2:
+            plot_arrows(centroid2, new2)
+        if centroid3 != new3:
+            plot_arrows(centroid3, new3)
         counter += 1
+
     # If the variable "counter" is an EVEN number, automatica() uses/reuses these variables
     else:
         centroid1 = new_centroids(first_color)
         centroid2 = new_centroids(second_color)
         centroid3 = new_centroids(third_color)
         assign(centroid1, centroid2, centroid3)
+        plt.subplot(3, 3, counter + 2)
+        plt.title("Run " + str(counter))
+        plot()
+        plot_centers(centroid1, centroid2, centroid3)
+        if centroid1 != new1:
+            plot_arrows(new1, centroid1)
+        if centroid2 != new2:
+            plot_arrows(new2, centroid2)
+        if centroid3 != new3:
+            plot_arrows(new3, centroid3)
         counter += 1
 
 
@@ -145,18 +175,50 @@ def cluster_csv(suca):
         return "3"
 
 
+# Functions for plotting/visualizing the whole process
+def plot():
+    for cc in range(len(coordinates)):
+        plt.scatter(coordinates['item' + str(cc)][0], coordinates['item' + str(cc)][1],
+                    c=coordinates['item' + str(cc)][2])
+    plt.xlim(0, max(coordinates[i][0] for i in coordinates.keys()) + 0.05)
+    plt.xticks(np.arange(0, max(coordinates[i][0] for i in coordinates.keys()) + 0.20, 0.10))
+    plt.ylim(0, max(coordinates[i][0] for i in coordinates.keys()) + 0.05)
+    plt.yticks(np.arange(0, max(coordinates[i][0] for i in coordinates.keys()) + 0.20, 0.10))
+    plt.grid()
+
+
+def plot_centers(vv, bbn, nn):
+    plt.scatter(vv[0], vv[1], c=k1, marker='*', s=15 * 15, edgecolors='black', linewidths=0.6)
+    plt.scatter(bbn[0], bbn[1], c=k2, marker='*', s=15 * 15, edgecolors='black', linewidths=0.6)
+    plt.scatter(nn[0], nn[1], c=k3, marker='*', s=15 * 15, edgecolors='black', linewidths=0.6)
+
+
+def plot_arrows(previous1, newc1):
+    plt.arrow(previous1[0], previous1[1], (newc1[0] - previous1[0]), (newc1[1] - previous1[1]), width=0.005,
+              color='black', length_includes_head=True)
+
+
 ##################################
 # *** MAIN PROCESS ***
 # Variable for counting the iterations of the process
 iteration = 0
+
+# First plot with the Raw Data
+plt.subplot(3, 3, 1)
+plt.title("Raw Data")
+plot()
+
+# This is the "Starting Run", that's why it's outside the "while" loop
 automatica()
 while True:
     if (centroid1, centroid2, centroid3) == (new1, new2, new3):
-        print("Since iteration", iteration, "is equal to iteration", str(iteration - 1)+",", "the program ended in",
+        print("Since iteration", iteration, "is equal to iteration", str(iteration - 1) + ",", "the program ended in",
               iteration - 1, "iterations.")
         break
     automatica()
     iteration += 1
+
+plt.show()
 
 # *** WRITING CSV ***
 # Creating DataFrame with all the needed information
