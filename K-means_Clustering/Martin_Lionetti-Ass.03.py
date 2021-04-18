@@ -1,6 +1,7 @@
 import pandas as pd
 import random
 
+
 # Function for "Manhattan distancing" between an item and a center of a cluster
 def manhattan(x, kol):
     distance = abs(coordinates['item' + str(kol)][0] - x[0]) + abs(coordinates['item' + str(kol)][1] - x[1])
@@ -171,5 +172,3 @@ for ii in coordinates.keys():
 
 # Writing the CSV using the just made DataFrame
 output.to_csv("output.csv", sep=";", index=False, header=False)
-
-#
